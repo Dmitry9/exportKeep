@@ -1,0 +1,29 @@
+{
+  "name": "y",
+  "version": "1.0.0",
+  "description": "Script to store to the file-system JSON formatted Google-Keep notes.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dmitry9/exportKeep.git"
+  },
+  "keywords": [
+    "scrape",
+    "google",
+    "keep",
+    "notes"
+  ],
+  "author": "Dmitry Karpov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dmitry9/exportKeep/issues"
+  },
+  "homepage": "https://github.com/Dmitry9/exportKeep#readme",
+  "dependencies": {
+    "puppeteer": "^1.11.0",
+    "express": "^4.16.4"
+  }
+}
