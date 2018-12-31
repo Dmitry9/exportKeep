@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const fs = require('fs');
+const path = require('path');
 const scraper = require('./scraper');
 
 app.use(function (req, res, next) {
@@ -12,9 +13,11 @@ app.use(function (req, res, next) {
 });
 
 app.use(bodyParser.json())
+
 let notes = [];
-let fileNameToStoreNotes = process.argv[2] || 'nodeNotes';
-const store = () => fs.writeFile(fileNameToStoreNotes + '.json',
+let fileNameToStoreNotes = process.argv[2] || 'notes';
+
+const store = () => fs.writeFile(path.resolve('../export/', fileNameToStoreNotes + '.json'),
     JSON.stringify(notes).replace(/,{/g, ',\n{'),
     () => console.log('Saved!') || process.exit(0)
 );
