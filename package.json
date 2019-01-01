@@ -4,7 +4,7 @@
   "description": "Script to store to the file-system JSON formatted Google-Keep notes.",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=development node src/index.js"
   },
   "repository": {
     "type": "git",
