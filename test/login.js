@@ -1,4 +1,3 @@
-const env = require('../.env');
 module.exports = async page => {
     if (process.env.NODE_ENV === 'development') {
         const selectors = {
