@@ -1,51 +1,63 @@
 module.exports = class Scraper {
     constructor() {
         this.url = 'http://localhost:3000';
-        this.redirections = [];
+        this.textAreas = ['titles', 'messages'];
+        this.promises = this.redirections = [];
         window.open = url => this.redirections.push(url);
-        this.LINKS = 'Go to link';
-        this.config = this.helper((s, i) => i ? `[aria-label='${s}']` : 'img');
-        this.expandContainer(this.findContainer().parentElement)
+        this.config = {
+            links: 'div[role="link"] div[role="button"]',
+            images: 'img',
+            [this.textAreas[0]]: 'div[aria-multiline]',
+            [this.textAreas[1]]: 'div[aria-multiline]',
+        };
+        this.expandContainer(this.findContainer())
     }
 
-    expandContainer({ parentElement: {children} }, prevLength) {
+    expandContainer({ children }, prevLength) {
         if (prevLength === children.length) {
-            this.createPost([...children]);
+            this.createPost([...children].filter(ch => ch.children.length));
         } else {
             const prevLength = children.length;
             window.scroll(0, prevLength * 1000);
-            setTimeout(() => {
-                this.expandContainer(this.findContainer(), prevLength);
-            }, 3000);
+            setTimeout(_ => this.expandContainer(this.findContainer(), prevLength), 3000);
         }
     }
 
     createPost(notes) {
-        const post = notes.map(node => {
-            const note = this.helper(key => this.getText(this.DOM(this.config[key], node)));
-            this.simulateMouseEvent(this.DOM(this.config[this.LINKS], node));
-            note[this.LINKS] = this.redirections.splice(-this.redirections.length);
+        this.fetch(notes.map(node => {
+            const note = this.helper(key => this.getText(this.DOM(key, node)));
+            this.simulateMouseEvent(this.DOM(this.config.links, node));
+            note.links = this.redirections.splice(-this.redirections.length);
             return note;
-        });
-        this.fetch(post);
+        }));
     }
 
     helper(fn) {
-        return ['Images', 'Title', 'Note', this.LINKS]
+        return Object.keys(this.config)
             .reduce((a, v, i) => ({ ...a, ...{ [v]: fn(v, i) } }), {});
     }
 
     findContainer() {
-        return [...Array(100).keys()].reverse()
-            .map(n => this.DOM(`div:nth-child(${n})`).pop()).find(Boolean);
+        const byHeight = this.DOM('.notes-container div')
+            .filter(({ style: { height } }) => height.includes('px'))
+            .reduce((acc, n) => (n.getClientRects()[0].height > acc) ? n : acc, 0);
+
+        return byHeight || [...Array(100).keys()].reverse()
+            .map(n => this.DOM(`div:nth-child(${n})`).pop()).find(Boolean).parentElement;
     }
 
-    DOM(selector, node = document.body) {
-        return [...node.querySelectorAll(selector)];;
+    DOM(string, node = document.body) {
+        const selector = this.config[string] || string;
+        const children = [...node.querySelectorAll(selector)];
+        const index = this.textAreas.indexOf(string);
+        if (index === -1)
+            return children
+
+        return index ? children.slice(1, children.length) : children.slice(0, 1);
     }
 
     getText(collection) {
-        return collection.map(({innerText, src}) => innerText || src).filter(Boolean);
+        return collection.map(({ innerText, src }) => innerText || src).filter(Boolean);
     }
 
     simulateMouseEvent(links) {
@@ -57,12 +69,16 @@ module.exports = class Scraper {
     }
 
     fetch(data) {
-        fetch(this.url, {
+        this.promises.push(fetch(this.url, {
             method: 'POST',
             body: JSON.stringify(data.splice(0, 50)),
             headers: { 'Content-Type': 'application/json' }
-        }).then(r => console.error(r)).catch(e => console.error(e));
+        }));
 
-        return data.length && this.fetch(data);
+        return data.length
+            ? this.fetch(data)
+            : Promise.all(this.promises)
+                .then(_ => fetch(this.url))
+                .catch(e => console.error(e));
     }
 }
