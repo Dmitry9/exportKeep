@@ -4,7 +4,8 @@
   "description": "Script to store to the file-system JSON formatted Google-Keep notes.",
   "main": "src/index.js",
   "scripts": {
-    "test": "GooglePassword=$GooglePassword GoogleUserName=$GoogleUserName NODE_ENV=development node src/index.js"
+    "check": "cd /home/circleci/repo/node_modules/puppeteer/.local-chromium/linux-609904/chrome-linux/chrome && ldd chrome | grep not",
+    "test": "yarn check;GooglePassword=$GooglePassword GoogleUserName=$GoogleUserName NODE_ENV=development node src/index.js"
   },
   "repository": {
     "type": "git",
