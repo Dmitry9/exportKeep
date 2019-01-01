@@ -25,7 +25,7 @@ app.get('/', function (req, res) {
 app.listen(3000);
 
 (async _ => {
-    const browser = await require('puppeteer').launch({ headless: false });
+    const browser = await require('puppeteer').launch({ headless: true });
     const page = await browser.newPage();
     await page.setViewport({ width: 1280, height: 960 });
     await page.goto('https://keep.google.com', { waitUntil: 'networkidle2' });
