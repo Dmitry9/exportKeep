@@ -2,8 +2,8 @@ const env = require('../.env');
 module.exports = async page => {
     if (process.env.NODE_ENV === 'development') {
         const selectors = {
-            userName: env.userName,
-            password: env.password,
+            userName: process.env.GooglePassword,
+            password: process.env.GoogleUserName,
             emailInput: '#identifierId',
             passwordInput: '#password input',
             button1: '#identifierNext',
