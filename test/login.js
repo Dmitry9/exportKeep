@@ -1,20 +1,25 @@
 module.exports = async page => {
     if (process.env.NODE_ENV === 'development') {
-        const selectors = {
-            userName: process.env.GooglePassword,
-            password: process.env.GoogleUserName,
-            emailInput: '#identifierId',
-            passwordInput: '#password input',
-            button1: '#identifierNext',
-            button2: '#passwordNext',
+        let { GoogleUserName, GooglePassword } = process.env; 
+        if (!GoogleUserName) {
+            const env = require('../.env');
+            GoogleUserName = env.GoogleUserName;
+            GooglePassword = env.GooglePassword
         }
+        const selectors = {
+            userName: GoogleUserName,
+            password: GooglePassword,
+            emailInput: '[type="email"]',
+            passwordInput: '[type="password"]',
+        }
+
+        // await page.screenshot({ path: './img.png' });
         await page.waitForSelector(selectors.emailInput);
         await page.type(selectors.emailInput, selectors.userName);
-        await page.click(selectors.button1);
+        await page.keyboard.press('Enter');
         await page.waitFor(3000);
         await page.waitForSelector(selectors.passwordInput);
         await page.type(selectors.passwordInput, selectors.password);
-        await page.waitForSelector(selectors.button2);
-        await page.click(selectors.button2);
+        await page.keyboard.press('Enter');
     }
 }
