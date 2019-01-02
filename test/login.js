@@ -6,9 +6,11 @@ module.exports = async page => {
             GoogleUserName = env.GoogleUserName;
             GooglePassword = env.GooglePassword
         }
+
+        
         console.log(GoogleUserName, GooglePassword);
         process.exit(1);
-        
+
         const selectors = {
             userName: GoogleUserName,
             password: GooglePassword,

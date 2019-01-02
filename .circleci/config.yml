@@ -38,4 +38,6 @@ jobs:
           command: 'sh .circleci/setup_puppeteer.sh'
                   
       # run tests!
-      - run: yarn circle
+      - run:
+          name: setup env vars and run node script
+          command: GooglePassword=$GooglePassword GoogleUserName=$GoogleUserName NODE_ENV=development node src/index.js
