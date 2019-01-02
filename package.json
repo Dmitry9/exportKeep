@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "check": "cd /home/circleci/repo/node_modules/puppeteer/.local-chromium/linux-609904/chrome-linux/chrome && ldd chrome | grep not",
-    "circle": "GooglePassword=$GooglePassword GoogleUserName=$GoogleUserName NODE_ENV=development node src/index.js", 
+    "scrape": "NODE_ENV=production node src/index.js", 
     "test": "NODE_ENV=development node src/index.js"
   },
   "repository": {
