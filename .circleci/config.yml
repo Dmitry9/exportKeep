@@ -38,4 +38,4 @@ jobs:
           command: 'sh .circleci/setup_puppeteer.sh'
                   
       # run tests!
-      - run: yarn test
+      - run: yarn circle
