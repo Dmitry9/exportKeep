@@ -40,4 +40,5 @@ jobs:
       # run tests!
       - run:
           name: setup env vars and run node script
+          # https: //github.com/GoogleChrome/puppeteer/issues/1409#issuecomment-440425373
           command: GooglePassword=$GooglePassword GoogleUserName=$GoogleUserName NODE_ENV=development node src/index.js

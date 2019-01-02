@@ -6,20 +6,17 @@ module.exports = async page => {
             GoogleUserName = env.GoogleUserName;
             GooglePassword = env.GooglePassword
         }
-
-
-        // console.log(GoogleUserName, GooglePassword);
-        // process.exit(1);
-
         const selectors = {
             userName: GoogleUserName,
             password: GooglePassword,
             emailInput: '[type="email"]',
             passwordInput: '[type="password"]',
         }
-
+        
         // await page.screenshot({ path: './img.png' });
         await page.waitForSelector(selectors.emailInput);
+        // console.log(GoogleUserName, GooglePassword);
+        // process.exit(1);
         await page.type(selectors.emailInput, selectors.userName);
         await page.keyboard.press('Enter');
         await page.waitFor(3000);
