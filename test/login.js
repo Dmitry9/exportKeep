@@ -15,11 +15,13 @@ module.exports = async page => {
         
         // await page.screenshot({ path: './img.png' });
         await page.waitForSelector(selectors.emailInput);
-        console.log(GoogleUserName, GooglePassword);
-        process.exit(1);
         await page.type(selectors.emailInput, selectors.userName);
         await page.keyboard.press('Enter');
         await page.waitFor(3000);
+
+        // await page.evaluate(document.querySelectorAll(''))
+        // console.log(GoogleUserName, GooglePassword);
+        // process.exit(1);
         await page.waitForSelector(selectors.passwordInput);
         await page.type(selectors.passwordInput, selectors.password);
         await page.keyboard.press('Enter');
