@@ -32,6 +32,13 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-        
+
+      - run:
+          name: Workaround for GoogleChrome/puppeteer#290
+          command: 'sh .circleci/setup_puppeteer.sh'
+                  
       # run tests!
-      - run: yarn test
+      - run:
+          name: setup env vars and run node script
+          # https: //github.com/GoogleChrome/puppeteer/issues/1409#issuecomment-440425373
+          command: GooglePassword=$GooglePassword GoogleUserName=$GoogleUserName NODE_ENV=development node src/index.js

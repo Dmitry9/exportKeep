@@ -12,7 +12,7 @@ module.exports = async page => {
             emailInput: '[type="email"]',
             passwordInput: '[type="password"]',
         }
-
+        
         // await page.screenshot({ path: './img.png' });
         await page.waitForSelector(selectors.emailInput);
         await page.type(selectors.emailInput, selectors.userName);
