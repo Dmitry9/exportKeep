@@ -9,7 +9,6 @@ const loginToFakeGoogleAccount = require('../test/login');
 // #endregion
 
 let notes = [];
-let fileNameToStoreNotes = process.argv[2] || 'notes';
 
 lib.prepare(app).post('/', function (req, res) {
     notes = [...notes, ...req.body];
@@ -17,15 +16,15 @@ lib.prepare(app).post('/', function (req, res) {
 });
 
 app.get('/', function (req, res) {
-    const pathToStore = path.resolve('export/', fileNameToStoreNotes + '.json');
-    fs.writeFile(pathToStore, lib.indent(notes), lib.cb(pathToStore));
+    const destination = path.resolve('export/', 'notes.json');
+    fs.writeFile(destination, lib.indent(notes), lib.cb(destination));
     res.end();
 });
 
 app.listen(3000);
 
 (async _ => {
-    const browser = await require('puppeteer').launch({ headless: true });
+    const browser = await require('puppeteer').launch({ headless: (process.env.NODE_ENV === 'development') });
     const page = await browser.newPage();
     await page.setViewport({ width: 1280, height: 960 });
     await page.goto('https://keep.google.com', { waitUntil: 'networkidle2' });
