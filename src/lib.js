@@ -24,9 +24,15 @@ module.exports = {
         return '[\n\t' + string.slice(1, string.length - 2) + '\n\t}\n]';
     },
     cb: pathToStore => {
-        return err => err
-            ? console.log(err)
-            :  console.log('Saved to file: ', pathToStore)
-                || process.exit(0);
+        return err => {
+            if (err) {
+                console.log(err);
+                process.exit(1);
+            }
+            else {
+                console.log('Saved to file: ', pathToStore);
+                process.exit(0);
+            }
+        }
     },
 };

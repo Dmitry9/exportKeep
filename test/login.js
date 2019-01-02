@@ -18,10 +18,6 @@ module.exports = async page => {
         await page.type(selectors.emailInput, selectors.userName);
         await page.keyboard.press('Enter');
         await page.waitFor(3000);
-
-        // await page.evaluate(document.querySelectorAll(''))
-        // console.log(GoogleUserName, GooglePassword);
-        // process.exit(1);
         await page.waitForSelector(selectors.passwordInput);
         await page.type(selectors.passwordInput, selectors.password);
         await page.keyboard.press('Enter');
