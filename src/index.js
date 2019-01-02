@@ -28,12 +28,8 @@ app.listen(3000);
     const browser = await require('puppeteer').launch({ headless: true });
     // console.log('GoogleUserName: ', process.env.GoogleUserName, 'GooglePassword: ', process.env.GooglePassword);
     const page = await browser.newPage();
-    console.log(page);process.exit(1);
     await page.setViewport({ width: 1280, height: 960 });
     await page.goto('https://keep.google.com', { waitUntil: 'networkidle2' });
-    
-
-
     await loginToFakeGoogleAccount(page);
     await page.waitForSelector('.notes-container');
     await page.waitFor(3000);
