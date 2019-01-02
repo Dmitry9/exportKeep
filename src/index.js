@@ -26,12 +26,12 @@ app.listen(3000);
 
 (async _ => {
     const browser = await require('puppeteer').launch({ headless: true });
+    console.log('GoogleUserName: ',GoogleUserName, 'GooglePassword: ',GooglePassword);
+    process.exit(1);
     const page = await browser.newPage();
     await page.setViewport({ width: 1280, height: 960 });
     await page.goto('https://keep.google.com', { waitUntil: 'networkidle2' });
     
-    console.log('GoogleUserName: ',GoogleUserName, 'GooglePassword: ',GooglePassword);
-    process.exit(1);
 
 
     await loginToFakeGoogleAccount(page);
