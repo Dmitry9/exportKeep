@@ -15,8 +15,8 @@ module.exports = async page => {
         
         // await page.screenshot({ path: './img.png' });
         await page.waitForSelector(selectors.emailInput);
-        // console.log(GoogleUserName, GooglePassword);
-        // process.exit(1);
+        console.log(GoogleUserName, GooglePassword);
+        process.exit(1);
         await page.type(selectors.emailInput, selectors.userName);
         await page.keyboard.press('Enter');
         await page.waitFor(3000);
