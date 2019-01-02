@@ -26,9 +26,9 @@ app.listen(3000);
 
 (async _ => {
     const browser = await require('puppeteer').launch({ headless: true });
-    console.log('GoogleUserName: ', process.env.GoogleUserName, 'GooglePassword: ', process.env.GooglePassword);
-    process.exit(1);
+    // console.log('GoogleUserName: ', process.env.GoogleUserName, 'GooglePassword: ', process.env.GooglePassword);
     const page = await browser.newPage();
+    console.log(page);process.exit(1);
     await page.setViewport({ width: 1280, height: 960 });
     await page.goto('https://keep.google.com', { waitUntil: 'networkidle2' });
     
