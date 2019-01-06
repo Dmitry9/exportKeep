@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const scraper = require('./scraper');
 const lib = require('./lib');
-const cookie = require('../cookies');
+const cookie = require('./cookies');
 // #endregion
 
 let notes = [], name = ['notes', 'archived'], page;
