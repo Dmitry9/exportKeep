@@ -6,6 +6,7 @@ const path = require('path');
 const scraper = require('./scraper');
 const lib = require('./lib');
 const cookie = require('./cookies');
+const login = require('./login');
 // #endregion
 
 let notes = [], name = ['notes', 'archived'], page;
@@ -32,6 +33,7 @@ app.listen(3000);
     await page.setViewport({ width: 1280, height: 960 });
     await page.setCookie(...cookie);
     await page.goto('https://keep.google.com', { waitUntil: 'networkidle2' });
+    await login(page);
     try {
         await page.waitFor(1000);
         await page.screenshot({ path: '/tmp/uploads/screen5.png' });
