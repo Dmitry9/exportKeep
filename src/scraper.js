@@ -10,7 +10,10 @@ module.exports = class Scraper {
             [this.textAreas[0]]: 'div[aria-multiline]',
             [this.textAreas[1]]: 'div[aria-multiline]',
         };
-        this.expandContainer(this.findContainer())
+    }
+
+    do() {
+        this.expandContainer(this.findContainer());
     }
 
     expandContainer({ children }, prevLength) {
@@ -38,12 +41,11 @@ module.exports = class Scraper {
     }
 
     findContainer() {
-        const byHeight = this.DOM('.notes-container div')
-            .filter(({ style: { height } }) => height.includes('px'))
-            .reduce((acc, n) => (n.getClientRects()[0].height > acc) ? n : acc, 0);
-
-        return byHeight || [...Array(100).keys()].reverse()
-            .map(n => this.DOM(`div:nth-child(${n})`).pop()).find(Boolean).parentElement;
+        return this.DOM('div')
+            .filter(d => d.style.width.includes('px'))
+            .map(d => ({ node: d, width: +d.style.width.replace('px', '') }))
+            .find((o, i, arr) => o.width === Math.max(...arr.map(t => t.width)))
+            .node.firstElementChild;
     }
 
     DOM(string, node = document.body) {

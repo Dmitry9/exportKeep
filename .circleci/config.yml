@@ -36,9 +36,16 @@ jobs:
       - run:
           name: Workaround for GoogleChrome/puppeteer#290
           command: 'sh .circleci/setup_puppeteer.sh'
+
+      - run:
+          name: Prepare uploads folder
+          command: mkdir /tmp/uploads
                   
       # run tests!
       - run:
           name: setup env vars and run node script
           # https: //github.com/GoogleChrome/puppeteer/issues/1409#issuecomment-440425373
           command: GooglePassword=$GooglePassword GoogleUserName=$GoogleUserName NODE_ENV=development node src/index.js
+
+      - store_artifacts:
+          path: /tmp/uploads
