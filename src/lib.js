@@ -23,7 +23,7 @@ module.exports = {
         
         return '[\n\t' + string.slice(1, string.length - 2) + '\n\t}\n]';
     },
-    cb: pathToStore => {
+    cb: (pathToStore, isEnd) => {
         return err => {
             if (err) {
                 console.log(err);
@@ -31,8 +31,16 @@ module.exports = {
             }
             else {
                 console.log('Saved to file: ', pathToStore);
-                process.exit(0);
+                if (isEnd)
+                    process.exit(0);
             }
         }
+    },
+    handleArchived: async page => {
+        try {
+            await page.evaluate("document.getElementById('gbm:6').click();");
+            await page.waitFor(3000);
+            await page.evaluate('window.scraper.do();');
+        } catch (e) { console.log('Archivation failed.', e) }
     },
 };
